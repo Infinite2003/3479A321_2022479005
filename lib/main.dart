@@ -5,117 +5,84 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Taller 2',
+      title: 'Buscaminas',
       theme: ThemeData(
         //Cambio de color principal al tema
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        primarySwatch: Colors.blue
       ),
       //Cambie el titulo por mi numero de matricula
-      home: const MyHomePage(title: '2022479005'), 
+      home: const MinesweeperScreen(), 
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  final int _defaultValue = 0;
-  Color _customeColor = Colors.blue; 
-
-  //Sumar
-  void _incrementCounter() {
-    setState(() {
-      
-      _counter++;
-    });
-  }
-
-  //Restar
-  void _decrementCounter(){
-
-    setState(() {
-
-      _counter--;
-    });
-  }
-
-  //Restaurar
-  void _resetCounter(){
-
-    setState(() {
-
-      _counter = _defaultValue;
-    });
-  }
-
-  //Cambiar Color
-  void _changeColor(){
-
-    setState(() {
-      _customeColor = _customeColor == Colors.blue ? Colors.red : Colors.blue;
-    });
-  }
-
-  //Botones
-  List<Widget> _buildFooterButtons(){
-
-    return[
-      IconButton(onPressed: _decrementCounter, icon: const Icon(Icons.remove)),
-      IconButton(onPressed: _incrementCounter, icon: const Icon(Icons.add)),
-      IconButton(onPressed: _resetCounter, icon: const Icon(Icons.restore)),
-      IconButton(onPressed: _changeColor, icon: const Icon(Icons.color_lens))
-    ];
-  }
+class MinesweeperScreen extends StatelessWidget {
+  const MinesweeperScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Container(
-        color: _customeColor, // Fondo dinámico según _customColor
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // Texto cambiado a español
-              const Text(
-                'Pixel Art sobre una grilla personalizable',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      appBar: AppBar(title: const Text('Buscaminas')),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              height: 60,
+              color: Colors.grey[300],
+              child: const Center(
+                child: Text(
+                  'STATUS: 349 segundos | Minas: 10| Cuadros: 56',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
               ),
-              const SizedBox(height: 20),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ],
-          ),
+            ),
+
+            const Divider(height: 1),
+
+            Expanded(
+              child: _gameBoard(),
+            ),
+          ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        // Ícono cambiado a uno de arte/pintura
-        child: const Icon(Icons.palette),
-      ),
-      // Botones persistentes en el pie de pantalla
-      persistentFooterButtons: _buildFooterButtons(),
     );
   }
+}
+
+Widget _gameBoard(){
+
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 8, //8 columnas
+            crossAxisSpacing: 2.0,
+            mainAxisSpacing: 2.0,
+          ),
+          itemCount: 64,
+          itemBuilder: (context, index){
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                border: Border.all(color: Colors.grey[600]!, width: 1.5),
+              ),
+            );
+          },
+        ),
+      ),
+    )
+  );
 }
