@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 void main() {
+  logger.d('Iniciando la aplicacion de buscaminas');
+  logger.i('Iniciando la aplicacion de buscaminas');
+  logger.w('Iniciando la aplicacion de buscaminas');
+  logger.e('Iniciando la aplicacion de buscaminas');
   runApp(const MyApp());
 }
 
