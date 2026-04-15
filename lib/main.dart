@@ -19,7 +19,17 @@ class MyApp extends StatelessWidget {
       title: 'Buscaminas',
       theme: ThemeData(
         //Cambio de color principal al tema
-        primarySwatch: Colors.blue
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.teal,
+          primary: Colors.cyan,
+          secondary: Colors.greenAccent
+        ),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 60, 15, 74),
+
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+        ),
+        useMaterial3: true,
       ),
       //Cambie el titulo por mi numero de matricula
       home: const MinesweeperScreen(), 
