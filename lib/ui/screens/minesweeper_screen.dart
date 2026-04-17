@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ui/screens/history_screen.dart';
+import 'package:flutter_application_1/ui/screens/menu_screen.dart';
 import '../widgets/mine_cells.dart';
 import 'about.dart';
 
@@ -19,7 +21,25 @@ class MinesweeperScreen extends StatelessWidget {
               context, MaterialPageRoute(builder: (_) => const AboutScreen())
               );
           },
-        )
+        ),
+        
+        IconButton(
+          icon: const Icon(Icons.history),
+          tooltip: 'Ver Historial',
+          onPressed: (){
+            Navigator.push(
+              context, MaterialPageRoute(builder: (context) => const HistoryScreen()),
+            );
+          },),
+
+        IconButton(
+          icon: const Icon(Icons.menu),
+          tooltip: 'Ir al Menu',
+          onPressed: (){
+            Navigator.push(
+              context, MaterialPageRoute(builder: (context) => const MenuScreen()),
+            );
+          },)
       ],
       ),
       
