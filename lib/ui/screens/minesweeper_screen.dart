@@ -9,6 +9,12 @@ class MinesweeperScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    final String difficulty = args?['difficulty'] ?? 'Desconocida';
+    final int gridSize = args?['gridSize'] ?? 8;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buscaminas'),
@@ -26,7 +32,8 @@ class MinesweeperScreen extends StatelessWidget {
           tooltip: 'Ir al Menu',
           onPressed: (){
             Navigator.pushNamed(context, '/menu');
-          },)
+          },
+          ),
       ],
       ),
       
@@ -36,9 +43,9 @@ class MinesweeperScreen extends StatelessWidget {
             Container(
               height: 60,
               color: Colors.grey[300],
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'STATUS: 349 segundos | Minas: 10| Cuadros: 56',
+                  'Dificultad: $difficulty | Tamaño: $gridSize x $gridSize',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -50,7 +57,7 @@ class MinesweeperScreen extends StatelessWidget {
             const Divider(height: 1),
 
             Expanded(
-              child: _gameBoard(),
+              child: _gameBoard(gridSize),
             ),
           ],
         ),
@@ -59,8 +66,8 @@ class MinesweeperScreen extends StatelessWidget {
   }
 }
 
-Widget _gameBoard(){
-
+Widget _gameBoard(int gridSize){
+final int totalCells = gridSize * gridSize;
   return Center(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -68,12 +75,12 @@ Widget _gameBoard(){
         aspectRatio: 1.0,
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 8, //8 columnas
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: gridSize, //8 columnas
             crossAxisSpacing: 2.0,
             mainAxisSpacing: 2.0,
           ),
-          itemCount: 64,
+          itemCount: totalCells,
           itemBuilder: (context, index){
             return MineCell(index: index);
           },
