@@ -5,8 +5,26 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Historial de Partidas')),
-      body: const Center(child: Text('Aquí irá la lista de partidas')),
+      appBar: AppBar(title: const Text('Menu Inicial')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/game'), 
+              child: const Text('Ir al Juego'),
+              ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/history'), 
+              child: const Text('Ir al Historial'),
+              ),
+          ],
+          ),
+        ),
     );
   }
 }

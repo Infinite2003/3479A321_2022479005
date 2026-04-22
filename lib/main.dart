@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ui/screens/about.dart';
+import 'package:flutter_application_1/ui/screens/history_screen.dart';
+import 'package:flutter_application_1/ui/screens/menu_screen.dart';
 import 'package:logger/logger.dart';
 import 'ui/screens/minesweeper_screen.dart';
 
@@ -32,7 +35,14 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //Cambie el titulo por mi numero de matricula
-      home: const MinesweeperScreen(), 
+      initialRoute: '/menu',
+
+      routes: {
+        '/menu': (context) => const MenuScreen(),
+        '/game': (context) => const MinesweeperScreen(),
+        '/history': (context) => const HistoryScreen(),
+        '/about': (context) => const AboutScreen(),
+      },
     );
   }
 }
