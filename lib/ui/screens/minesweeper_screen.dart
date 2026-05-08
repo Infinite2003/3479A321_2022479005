@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:flutter_application_1/ui/screens/history_screen.dart';
 import 'package:flutter_application_1/ui/screens/menu_screen.dart';
 import '../widgets/mine_cells.dart';
 import 'about.dart';
+import '../../models/cell_model.dart';
 
-class MinesweeperScreen extends StatelessWidget {
+class MinesweeperScreen extends StatefulWidget {
   const MinesweeperScreen({Key? key}) : super(key: key);
 
   @override
