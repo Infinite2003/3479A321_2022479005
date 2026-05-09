@@ -52,6 +52,15 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
     super.dispose();
   }
 
+  void _onCellTapped(int index) {
+
+    setState(() {
+
+      _cells[index].isRevealed = true;
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -123,28 +132,41 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
       ),
     );
   }
-}
 
-Widget _gameBoard(int gridSize){
-final int totalCells = gridSize * gridSize;
-  return Center(
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: gridSize, //8 columnas
-            crossAxisSpacing: 2.0,
-            mainAxisSpacing: 2.0,
+  Widget _gameBoard(int gridSize) {
+
+    final int totalCells = gridSize * gridSize;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+
+        child: AspectRatio(
+          aspectRatio: 1.0,
+
+          child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: gridSize,
+              crossAxisSpacing: 2.0,
+              mainAxisSpacing: 2.0,
+            ),
+
+            itemCount: totalCells,
+
+            itemBuilder: (context, index) {
+
+              return MineCell(
+                cell: _cells[index],
+                onTap: () => _onCellTapped(index),
+              );
+            },
           ),
-          itemCount: totalCells,
-          itemBuilder: (context, index){
-            return MineCell(index: index);
-          },
         ),
       ),
-    )
-  );
+    );
+  }
 }
+
