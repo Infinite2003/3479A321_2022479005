@@ -4,6 +4,8 @@ import 'package:flutter_application_1/ui/screens/history_screen.dart';
 import 'package:flutter_application_1/ui/screens/menu_screen.dart';
 import 'package:logger/logger.dart';
 import 'ui/screens/minesweeper_screen.dart';
+import 'package:provider/provider.dart';
+import 'viewmodels/game_view_model.dart';
 
 var logger = Logger();
 
@@ -39,7 +41,11 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/menu': (context) => const MenuScreen(),
-        '/game': (context) => const MinesweeperScreen(),
+        '/game': (context) => ChangeNotifierProvider(
+          create: (context) => GameViewModel(),
+          child: const MinesweeperScreen(),
+          ),
+
         '/history': (context) => HistoryScreen(),
         '/about': (context) => const AboutScreen(),
       },

@@ -1,70 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
-import 'package:flutter_application_1/ui/screens/history_screen.dart';
-import 'package:flutter_application_1/ui/screens/menu_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../../viewmodels/game_view_model.dart';
 import '../widgets/mine_cells.dart';
-import 'about.dart';
-import '../../models/cell_model.dart';
 
-class MinesweeperScreen extends StatefulWidget {
+class MinesweeperScreen extends StatelessWidget {
+
   const MinesweeperScreen({Key? key}) : super(key: key);
-
-  @override
-  State<MinesweeperScreen> createState() => _MinesweeperScreenState();
-}
-
-class _MinesweeperScreenState extends State<MinesweeperScreen> {
-
-  late List<CellModel> _cells;
-
-  final logger = Logger();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _cells = List.generate(
-      64,
-      (i) => CellModel(index: i),
-    );
-
-    logger.i('Lifecycle: initState()');
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    logger.i('Lifecycle: didChangeDependencies()');
-  }
-
-  @override
-  void didUpdateWidget(covariant MinesweeperScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    logger.w('Lifecycle: didUpdateWidget()');
-  }
-
-  @override
-  void dispose() {
-    logger.e('Lifecycle: dispose()');
-
-    super.dispose();
-  }
-
-  void _onCellTapped(int index) {
-
-    setState(() {
-
-      _cells[index].isRevealed = true;
-
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
 
-    logger.i('Lifecycle: build()');
+    final viewModel =
+        context.watch<GameViewModel>();
 
     final args =
         ModalRoute.of(context)?.settings.arguments
@@ -77,6 +25,7 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
         args?['gridSize'] ?? 8;
 
     return Scaffold(
+
       appBar: AppBar(
         title: const Text('Buscaminas'),
 
@@ -84,7 +33,6 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
 
           IconButton(
             icon: const Icon(Icons.history),
-            tooltip: 'Ver Historial',
 
             onPressed: () {
               Navigator.pushNamed(context, '/history');
@@ -93,7 +41,6 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
 
           IconButton(
             icon: const Icon(Icons.menu),
-            tooltip: 'Ir al Menu',
 
             onPressed: () {
               Navigator.pushNamed(context, '/menu');
@@ -125,7 +72,7 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
             const Divider(height: 1),
 
             Expanded(
-              child: _gameBoard(gridSize),
+              child: _gameBoard(viewModel, gridSize),
             ),
           ],
         ),
@@ -133,9 +80,13 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
     );
   }
 
-  Widget _gameBoard(int gridSize) {
+  Widget _gameBoard(
+    GameViewModel viewModel,
+    int gridSize,
+  ) {
 
-    final int totalCells = gridSize * gridSize;
+    final int totalCells =
+        gridSize * gridSize;
 
     return Center(
       child: Padding(
@@ -145,10 +96,13 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
           aspectRatio: 1.0,
 
           child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
+
+            physics:
+                const NeverScrollableScrollPhysics(),
 
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(
+
               crossAxisCount: gridSize,
               crossAxisSpacing: 2.0,
               mainAxisSpacing: 2.0,
@@ -158,9 +112,15 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
 
             itemBuilder: (context, index) {
 
+              final currentCell =
+                  viewModel.cells[index];
+
               return MineCell(
-                cell: _cells[index],
-                onTap: () => _onCellTapped(index),
+
+                cell: currentCell,
+
+                onTap: () =>
+                    viewModel.revealCell(index),
               );
             },
           ),
