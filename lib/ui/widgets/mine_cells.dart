@@ -21,7 +21,11 @@ class MineCell extends StatelessWidget {
       child: Container(
 
         decoration: BoxDecoration(
-          color: Colors.grey[400],
+
+          color: cell.isRevealed
+            ? Colors.grey[300]
+            : Colors.grey[500],
+
           border: Border.all(
             color: Colors.black,
             width: 1,
@@ -29,11 +33,37 @@ class MineCell extends StatelessWidget {
         ),
 
         child: Center(
-
-          child: cell.isRevealed
-              ? const Icon(Icons.circle, size: 18)
-              : const SizedBox.shrink(),
+          child: _buildCellContent(),
         ),
+      ),
+    );
+  }
+
+  Widget _buildCellContent(){
+
+    if(!cell.isRevealed){
+
+      return const SizedBox.shrink();
+    }
+
+    if(cell.isBomb){
+
+      return Image.asset(
+        'assets/icons/Bomb.png',
+        width: 40,
+        height: 40,
+        fit: BoxFit.contain
+        );
+    }
+
+    return Text(
+
+      '${cell.index}',
+
+      style: const TextStyle(
+        
+        fontWeight: FontWeight.bold,
+        color: Colors.blueGrey,
       ),
     );
   }
